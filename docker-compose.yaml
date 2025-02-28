@@ -1,0 +1,49 @@
+services:
+
+  database:
+    image: bitnami/mariadb:10.2
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_DATABASE=glpi
+      - MARIADB_USER=glpi
+      - MARIADB_PASSWORD=glpi
+    ports:
+      - 3306:3306
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+
+  glpi:
+    depends_on:
+      - database
+    build: .
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - GLPI_TELEMETRY_URI=https://example.com/
+      - GLPI_DATABASE_HOST=database
+      - GLPI_DATABASE_PORT=3306
+      - GLPI_DATABASE_NAME=glpi
+      - GLPI_DATABASE_USERNAME=glpi
+      - GLPI_DATABASE_PASSWORD=glpi
+      - GLPI_SMTP_MODE=1
+      - GLPI_SMTP_HOST=postfix
+      - GLPI_SMTP_PORT=25
+      - GLPI_ENABLE_API=1
+      - GLPI_ENABLE_API_LOGIN_CREDENTIALS=1
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./config:/config
+
+  nginx-prometheus-exporter:
+    image: nginx/nginx-prometheus-exporter
+    command: --web.listen-address=:9090 -nginx.scrape-uri http://glpi/stub_status
+    ports:
+      - 9090:9090
+
+volumes:
+  database: {}
