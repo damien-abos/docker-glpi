@@ -1,0 +1,16 @@
+#!/usr/bin/with-contenv bash
+# shellcheck shell=bash
+
+if [[ -z ${LSIO_NON_ROOT_USER} ]]; then
+    lsiown -R abc:postdrop \
+        /spool/mail \
+        /var/lib/postfix
+
+    lsiown -R abc:abc \
+        /config/dkim \
+        /run/opendkim
+fi
+
+if [[ -f "/config/dkim/dkim.key" ]]; then
+    chmod 600 /config/dkim/dkim.key
+fi

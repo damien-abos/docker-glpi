@@ -1,0 +1,22 @@
+{
+    "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
+    "image": "mcr.microsoft.com/devcontainers/base:bullseye",
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils": {
+            "upgradePackages": true,
+            "nonFreePackages": true
+        },
+        "ghcr.io/devcontainers/features/docker-in-docker": {
+            "installDockerBuildx": true,
+            "moby": true,
+            "version": "latest"
+        }
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "azuretools.vscode-docker"
+            ]
+        }
+    }
+}
