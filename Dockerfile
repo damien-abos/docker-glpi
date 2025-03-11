@@ -1,14 +1,20 @@
 # syntax=docker/dockerfile:1
 
-FROM ghcr.io/linuxserver/baseimage-alpine-nginx:3.20
+FROM ghcr.io/linuxserver/baseimage-alpine-nginx:3.21
 
 # set version label
 ARG GLPI_DOWNLOAD_URL
 
-LABEL org.opencontainers.image.authors=damien-abos
-LABEL org.opencontainers.image.source=https://github.com/damien-abos/docker-glpi
+LABEL org.opencontainers.image.authors="damien-abos"
+LABEL org.opencontainers.image.vendor="damien-abos"
+LABEL org.opencontainers.image.source="https://github.com/damien-abos/docker-glpi"
+LABEL org.opencontainers.image.documentation="https://github.com/damien-abos/docker-glpi/wiki"
+LABEL org.opencontainers.image.url="https://github.com/damien-abos/docker-glpi/packages"
 LABEL org.opencontainers.image.description="GLPI using LinuxServer.io Base Image"
-LABEL org.opencontainers.image.licenses=GPL-3.0-or-later
+LABEL org.opencontainers.image.title="docker-glpi"
+LABEL org.opencontainers.image.licenses="GPL-3.0-or-later"
+LABEL org.opencontainers.image.vendor="damien-abos"
+LABEL org.opencontainers.image.base.name="ghcr.io/linuxserver/baseimage-alpine-nginx:3.21"
 
 LABEL maintainer="damien-abos"
 
