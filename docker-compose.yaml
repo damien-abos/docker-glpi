@@ -19,7 +19,7 @@ services:
     user: 1001:1001
     depends_on:
       - database
-    build: alpine
+    build: alpine/apache
     #command: sleep 3600
     environment:
       - GLPI_TELEMETRY_URI=https://example.com/
@@ -33,6 +33,9 @@ services:
       - GLPI_SMTP_PORT=25
       - GLPI_ENABLE_API=1
       - GLPI_ENABLE_API_LOGIN_CREDENTIALS=1
+      - http_proxy=http://mitmproxy:8080
+      - https_proxy=http://mitmproxy:8080
+      - no_proxy=localhost,127.0.0.1,database
     ports:
       - 8080:8080
     volumes:
@@ -44,5 +47,14 @@ services:
     ports:
       - 9090:9090
 
+  mitmproxy:
+    image: docker.io/mitmproxy/mitmproxy:dev
+    command: mitmweb --web-host 0.0.0.0 --set web_password=mitmproxy
+    ports:
+      - 8082:8081
+    volumes:
+      - mitmproxy:/home/mitmproxy/.mitmproxy
+
 volumes:
   database: {}
+  mitmproxy: {}
