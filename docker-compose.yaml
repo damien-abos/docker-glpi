@@ -16,10 +16,10 @@ services:
       - 8081:8080
 
   glpi:
-    user: 1001:1001
+    user: 1000:1000
     depends_on:
       - database
-    build: alpine/apache
+    build: alpine/nginx
     #command: sleep 3600
     environment:
       - GLPI_TELEMETRY_URI=https://example.com/

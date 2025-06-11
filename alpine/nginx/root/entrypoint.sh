@@ -6,12 +6,11 @@ mkdir -p \
     /data/glpi/config \
     /data/glpi/files/{_cache,_cron,_dumps,_graphs,_inventories,_locales,_lock,_log,_pictures,_plugins,_rss,_sessions,_themes,_tmp,_uploads} \
     /data/glpi/marketplace \
-    /data/glpi/plugins \
     /data/log \
     /data/nginx/{logs,tmp}
 
 # install database if required
-glpi-console database:install \
+glpi-db-ok || glpi-console database:install \
     --db-host=$GLPI_DATABASE_HOST \
     --db-port=$GLPI_DATABASE_PORT \
     --db-name=$GLPI_DATABASE_NAME \

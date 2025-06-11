@@ -27,7 +27,7 @@ LABEL maintainer="damien-abos"
 ENV GLPI_CONFIG_DIR=/data/glpi/config
 ENV GLPI_VAR_DIR=/data/glpi/files
 ENV GLPI_MARKETPLACE_DIR=/data/glpi/marketplace
-ENV GLPI_PLUGINS_DIR=/data/glpi/plugins
+ENV GLPI_PLUGINS_DIR=/var/wwww/glpi/plugins
 
 ENV GLPI_TELEMETRY_URI=https://telemetry.glpi-project.org
 ENV GLPI_NETWORK_MAIL=glpi@teclib.com
@@ -120,8 +120,8 @@ RUN \
   ln -s /data/nginx/logs /var/lib/nginx/logs  && \
   ln -s /data/nginx/tmp /var/lib/nginx/tmp && \
   echo "**** create glpi user ****" && \
-  addgroup -g 10000 -S glpi && \
-  adduser -S -D -H -u 10000 -s /sbin/nologin -h /data -G glpi glpi && \
+  addgroup -g 1000 -S glpi && \
+  adduser -S -D -H -u 1000 -s /sbin/nologin -h /data -G glpi glpi && \
   chown -R glpi:glpi /data && \
   chmod 755 /var/lib/nginx && \
   echo "**** cleanup ****" && \
@@ -130,12 +130,16 @@ RUN \
 
 # copy local files
 COPY root/ /
+# fix rights
+RUN \
+  echo "**** Set executable files ****" && \
+  chmod a+x /entrypoint.sh /livenessCheck.sh /readinessCheck.sh /usr/local/bin/glpi-console /usr/local/bin/glpi-db-ok
 
 USER glpi
 
 # ports and volumes
 EXPOSE 8080
-VOLUME [ "/data" ]
+VOLUME [ "/data", "/var/www/glpi/plugins" ]
 
 
 CMD [ "nginx" ]
